@@ -1,23 +1,21 @@
 function Missile(target,closestLauncher){
     this.target = target; // end target of missile
     this.start = createVector(launchers[closestLauncher].xPos,height-groundHeight); // location of missile launcher
-    this.pos = 0; // current location of missile
-    this.angle = p5.Vector.sub(this.target,this.start).heading(); // unit vector pointing from start to target
+    this.pos = this.start.copy(); // current location of missile
     this.dist = p5.Vector.sub(this.target,this.start).mag(); // total distance from launcher to target
-    this.path = p5.Vector.fromAngle(this.angle).mult(this.pos);
+	this.speed = p5.Vector.sub(this.target,this.start).setMag(missileSpeed); // incremental position change
 	
-	this.rMax = 75;
+	this.rMax = 75; // maximum size of explosion
 	this.r = 0;
 	this.growthRate = 0.5;
 	this.hit = false;
 	this.exploded = false;
     
     this.update = function(){
-		if(this.pos < this.dist){
-			this.pos += missileSpeed;
-			this.pos = constrain(this.pos,0,this.dist);
-			this.path = p5.Vector.fromAngle(this.angle).mult(this.pos); 
-		}else if(this.pos == this.dist){
+		if(p5.Vector.dist(this.pos,this.target) >= this.speed.mag()){
+			this.pos.add(this.speed);
+		}else if(p5.Vector.dist(this.pos,this.target) < this.speed.mag()){
+			this.pos = this.target;
 			this.hit = true;
 			if(this.r < this.rMax){
 				this.r += this.growthRate;
@@ -28,18 +26,13 @@ function Missile(target,closestLauncher){
     }
     
     this.show = function(){
-		if(this.pos <this.dist){
-			push();	
+		if(p5.Vector.dist(this.target,this.pos) > 0){
 			stroke(255);
-			translate(this.start.x,this.start.y);
-			line(0,0,this.path.x,this.path.y);
-			pop();
+			line(this.start.x,this.start.y,this.pos.x,this.pos.y);
 		}else{
-			push();
 			stroke(255,100,100);
 			fill(255,0,0,100);
 			ellipse(this.target.x,this.target.y,this.r,this.r);
-			pop();
 		}
     }
 }
