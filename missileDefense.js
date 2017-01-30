@@ -5,9 +5,12 @@ var launchers = [];
 var missiles = [];
 var meteors = [];
 var gameOver = false;
+var mgr;
+
 function setup(){
 	createCanvas(800,600);
 	createLaunchers(4);
+	mgr = new GameManager();
 }
 
 function draw(){
@@ -15,6 +18,8 @@ function draw(){
 	fill(0,255,100);
 	noStroke();
 	rect(0,height-groundHeight,width,groundHeight);
+	
+	mgr.showScore();
 	
 	if(countLaunchers()<1){
 		textAlign(CENTER);
@@ -41,6 +46,7 @@ function draw(){
 				if(missiles[i].hit){
 					for(var j=meteors.length-1; j>=0; j--){
 						if(meteorDestroyed(meteors[j],missiles[i])){
+						    mgr.addScore(5);
 							meteors.splice(j,1);
 						}
 					}
@@ -126,6 +132,7 @@ function mousePressed(){
 		meteors = [];
 		missiles = [];
 		gameOver = false;
+		mgr.score = 0;
 	}else{
 		var target = createVector(mouseX,mouseY);
 		var launcherNum = getClosestLauncher(mouseX);
@@ -133,6 +140,7 @@ function mousePressed(){
 			missiles.push(new Missile(target,launcherNum));
 			launchers[launcherNum].startCooldown(); 
 		}
+		mgr.subScore(1);
 	}
 	return false;
 }
