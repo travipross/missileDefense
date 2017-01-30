@@ -6,6 +6,7 @@ var missiles = [];
 var meteors = [];
 var gameOver = false;
 var mgr;
+var rLauncher = 35;
 
 function setup(){
 	createCanvas(800,600);
@@ -60,11 +61,10 @@ function draw(){
 		
 		for(var i=meteors.length-1;i>=0;i--){
 			meteors[i].update();
-			if(meteors[i].pos.y < height-groundHeight){
+			if(p5.Vector.dist(meteors[i].pos,meteors[i].target) > rLauncher/2 + meteors[i].r/2){
 				meteors[i].show();
 			}else{
-				console.log("removing launcher " + meteors[i].targetLauncher);
-				//launchers.splice(meteors[i].targetLauncher,1);
+				//console.log("removing launcher " + meteors[i].targetLauncher);
 				launchers[meteors[i].targetLauncher].destroyed = true;
 				launchers[meteors[i].targetLauncher].cooldown = true;
 				meteors.splice(i,1);
