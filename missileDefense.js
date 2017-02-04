@@ -7,11 +7,20 @@ var meteors = [];
 var gameOver = false;
 var mgr;
 var rLauncher = 35;
+var storage;
 
 function setup(){
 	createCanvas(800,600);
 	createLaunchers(4);
 	mgr = new GameManager();
+	if (typeof(Storage) !== "undefined") {
+        storage = true;
+        if(localStorage.bestScore !== undefined){
+            mgr.bestScore = localStorage.bestScore;
+        }
+    } else {
+        storage = false;
+    }
 }
 
 function draw(){

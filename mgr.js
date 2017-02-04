@@ -6,6 +6,9 @@ function GameManager(){
         this.score+=amt;
         if(this.score > this.bestScore){
             this.bestScore = this.score;
+            if(storage){
+                localStorage.bestScore = this.bestScore;
+            }
         }
     }
     
