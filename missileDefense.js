@@ -10,8 +10,8 @@ var rLauncher = 35;
 var storage;
 
 function setup(){
-	createCanvas(800,600);
-	createLaunchers(4);
+	createCanvas(1000,600);
+	createLaunchers(5);
 	mgr = new GameManager();
 	if (typeof(Storage) !== "undefined") {
         storage = true;
