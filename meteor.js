@@ -1,4 +1,6 @@
+// meteor object
 function Meteor(){
+	// determine which launchers remain as targets
 	var remaining = [];
 	for(var i=0;i<launchers.length; i++){
 		if (!launchers[i].destroyed){
@@ -9,14 +11,16 @@ function Meteor(){
     this.target = createVector(launchers[this.targetLauncher].xPos,height-groundHeight); // get coords to target
 	this.pos = createVector(random(-50,width+50),-50); // create initial position offscreen
 	this.speed = p5.Vector.sub(this.target,this.pos).setMag(meteorSpeed); // incremental position change
-	this.r = 10;
+	this.r = 10; // size of meteor
 	
+	// update position
     this.update = function(){
 		if(this.pos.y < height-groundHeight){
 			this.pos.add(this.speed);
 		}
     }
     
+	// display meteor
     this.show = function(){
         stroke(255);
 		fill(255);

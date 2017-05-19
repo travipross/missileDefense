@@ -1,7 +1,9 @@
+// handles scoring of game
 function GameManager(){
     this.score = 0;
     this.bestScore = 0;
     
+	// increment score and update bestScore if necessary
     this.addScore = function(amt){
         this.score+=amt;
         if(this.score > this.bestScore){
@@ -12,6 +14,7 @@ function GameManager(){
         }
     }
     
+	// decrement score (for when firing)
     this.subScore = function(amt){
         this.score-=amt;
         if(this.score < 0){
@@ -19,6 +22,7 @@ function GameManager(){
         }
     }
     
+	// display the score on the top rigth of the screen
     this.showScore = function(){
         textAlign(RIGHT);
         textSize(20);
